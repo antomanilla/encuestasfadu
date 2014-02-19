@@ -51,15 +51,15 @@ var Catedras = {
     var semaphore = catedras.length;
     var posible_error;
     for (var i = 0; i<catedras.length; i++) {
-      addDia_nombre(catedras[i], function(_i) {
+      addDia_nombre(catedras[i], (function(_i) {
         return function(error){
           if (error) posible_error = error;
           semaphore--;
           if(semaphore==0) {
             callback(posible_error);
           }
-        })(i);
-      });
+        }
+      })(i));
     }
   }
 

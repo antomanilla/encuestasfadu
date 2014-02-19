@@ -28,6 +28,23 @@ var Materias = {
       }
     });
   },
+    getById: function(idmateria, callback) {
+    db.get("select * from materias where idmateria = ?",[idmateria], 
+           function(error, row){
+      if (error) return callback(error);
+      if (row) {
+        var materia = new Materia(row.idmateria, 
+                                    row.nombre,
+                                    row.anual,
+                                    row.regular,
+                                    row.nivel);
+        callback(undefined, materia)
+      } else {
+        callback("No existe tal materia", undefined);
+      }
+    });
+  
+  },
   getGroupedByNivel: function(callback) {
     Materias.getAll(function(error, materias){
       if (error) callback(error);
@@ -37,7 +54,7 @@ var Materias = {
           materiasniveladas[materias[i].nivel-1].push(materias[i]);
         }
       }
-      callback(undefined,[materiasniveladas]);
+      callback(undefined, materiasniveladas);
     });
   }
 };

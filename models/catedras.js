@@ -31,7 +31,38 @@ var Catedras = {
         callback(undefined, catedras);
       }
     });
+  },
+  
+  /* recibe una objeto Catedra y le agrega una propiedad dia_nombre que es 
+  el nombre del dia de esta cátedra.  */
+  addDia_nombre: function(catedra, callback) {
+    db.get("select nombre from dias where dia = ?", [catedra.dia], function(error, row){
+      if (error) return callback(error);
+      if (row) {
+        catedra.dia_nombre = row.nombre;    
+      } 
+      callback();
+    });
+  },
+  
+  /*recibe un array de catedras y un callback y agrega la propiedad dia_nombre a cada Catedra.
+  Al terminar llama al callback */
+  addDia_nombreMultiple: function(catedras, callback) {
+    var semaphore = catedras.length;
+    var posible_error;
+    for (var i = 0; i<catedras.length; i++) {
+      addDia_nombre(catedras[i], function(_i) {
+        return function(error){
+          if (error) posible_error = error;
+          semaphore--;
+          if(semaphore==0) {
+            callback(posible_error);
+          }
+        })(i);
+      });
+    }
   }
+
 };
 
 module.exports = function(db_) {

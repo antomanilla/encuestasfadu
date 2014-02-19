@@ -21,11 +21,23 @@ var Materias = {
           materias[i] = new Materia(rows[i].idmateria, 
                                     rows[i].nombre,
                                     rows[i].anual,
-                                    rows[i].regular
+                                    rows[i].regular,
                                     rows[i].nivel);
         }
         callback(undefined, materias);
       }
+    });
+  },
+  getGroupedByNivel: function(callback) {
+    Materias.getAll(function(error, materias){
+      if (error) callback(error);
+      else {
+        var materiasniveladas = [[],[],[]];
+        for(var i=0; i<materias.length; i++){
+          materiasniveladas[materias[i].nivel-1].push(materias[i]);
+        }
+      }
+      callback(undefined,[materiasniveladas]);
     });
   }
 };

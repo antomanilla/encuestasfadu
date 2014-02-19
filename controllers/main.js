@@ -7,7 +7,6 @@ var main = {
       else {
         var data = {
           nivel: materias
-
         }
         response.render("main", data);
       }

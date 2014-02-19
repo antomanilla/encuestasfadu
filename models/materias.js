@@ -1,10 +1,11 @@
 var db;
 
-function Materia(idmateria, nombre, anual, regular) {
+function Materia(idmateria, nombre, anual, regular, nivel) {
   this.idmateria = idmateria;
   this.nombre = nombre;
   this.anual = anual;
   this.regular = regular;
+  this.nivel = nivel;
 }
 
 var Materias = {
@@ -20,7 +21,8 @@ var Materias = {
           materias[i] = new Materia(rows[i].idmateria, 
                                     rows[i].nombre,
                                     rows[i].anual,
-                                    rows[i].regular);
+                                    rows[i].regular
+                                    rows[i].nivel);
         }
         callback(undefined, materias);
       }

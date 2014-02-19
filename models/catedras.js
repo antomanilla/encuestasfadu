@@ -1,11 +1,12 @@
 var db;
 
-function Catedra(idmateria, idcatedra, nombre, turno, promocionable) {
+function Catedra(idmateria, idcatedra, nombre, turno, promocionable, dia) {
   this.idmateria = idmateria;
   this.idcatedra = idcatedra;
   this.nombre = nombre;
   this.turno = turno;
   this.promocionable = promocionable;
+  this.dia = dia;
 }
 
 var Catedras = {
@@ -24,7 +25,8 @@ var Catedras = {
                                     rows[i].idcatedra,
                                     rows[i].nombre,
                                     rows[i].turno,
-                                    rows[i].promocionable);
+                                    rows[i].promocionable,
+                                    rows[i].dia);
         }
         callback(undefined, catedras);
       }

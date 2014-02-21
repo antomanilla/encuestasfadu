@@ -28,7 +28,10 @@ var Materias = {
       }
     });
   },
-    getById: function(idmateria, callback) {
+  /* Materias.getById recibe un idmateria y un callback, y llama al
+  callback con un posible error y un objeto Materia correspondiente
+  a la materia que lleva el id recibido. */
+  getById: function(idmateria, callback) {
     db.get("select * from materias where idmateria = ?",[idmateria], 
            function(error, row){
       if (error) return callback(error);
@@ -45,6 +48,9 @@ var Materias = {
     });
   
   },
+  /* Materias.getGroupedByNivel recibe un callback, y lo llama con
+  un posible error y un array de arrays de objetos Materia x, donde x[i] es 
+  una array de las materias del i+1-esimo nivel. */
   getGroupedByNivel: function(callback) {
     Materias.getAll(function(error, materias){
       if (error) callback(error);

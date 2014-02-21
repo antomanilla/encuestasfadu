@@ -53,14 +53,58 @@ var Materias = {
   una array de las materias del i+1-esimo nivel. */
   getGroupedByNivel: function(callback) {
     Materias.getAll(function(error, materias){
-      if (error) callback(error);
-      else {
-        var materiasniveladas = [[],[],[]];
-        for(var i=0; i<materias.length; i++){
-          materiasniveladas[materias[i].nivel-1].push(materias[i]);
+      if (error) return callback(error);
+      var materiasniveladas = Materias.groupByNivel(materias);
+      callback(undefined, materiasniveladas);
+    });
+  },
+  /*Materias.groupByNivel recibe un array de objetos Materia y devuelve un 
+  array de arrays de objetos Materia x, donde x[i] es un array de las materias 
+  del i+1-esimo nivel .*/
+  groupByNivel: function(materias) {
+    var materiasniveladas = [[],[],[]];
+    for(var i=0; i<materias.length; i++){
+      materiasniveladas[materias[i].nivel-1].push(materias[i]);
+    }
+    return materiasniveladas;
+  },
+  /*Materias.getRegulares recibe un callback y lo llama con un posible error y
+  un array de arrays de objetos Materia x, donde x[i] es un array de las materias 
+  regulares del i+1-esimo nivel */
+  getRegulares: function(callback) {
+    db.all("select * from materias where regular = 1", function(error, rows) {
+      if (error) return callback(error);
+      var materias_regulares_niveladas = [];
+      if (rows) {
+        var materias = [];
+        for(var i=0; i<rows.length; i++) {
+          materias[i] = new Materia(rows[i].idmateria, 
+                                    rows[i].nombre,
+                                    rows[i].anual,
+                                    rows[i].regular,
+                                    rows[i].nivel);
+        }
+        materias_regulares_niveladas = Materias.groupByNivel(materias);
+      }
+      callback(undefined, materias_regulares_niveladas);
+    });
+  },
+  /*Materias.getOptativas recibe un callback y lo llama con un posible error y
+  un array de objetos Materia, siendo éstos materias optativas*/
+  getOptativas: function(callback) {
+    db.all("select * from materias where regular = 0", function(error, rows) {
+      if (error) return callback(error);
+      var materias_optativas = [];
+      if (rows) {
+        for(var i=0; i<rows.length; i++) {
+          materias_optativas[i] = new Materia(rows[i].idmateria, 
+                                    rows[i].nombre,
+                                    rows[i].anual,
+                                    rows[i].regular,
+                                    rows[i].nivel);
         }
       }
-      callback(undefined, materiasniveladas);
+      callback(undefined, materias_optativas);
     });
   }
 };

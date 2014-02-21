@@ -2,7 +2,7 @@ var Materias;
 
 var main = {
   showMateriasRegulares: function(request, response) {
-    Materias.getGroupedByNivel(function(error,materias){
+    Materias.getRegulares(function(error,materias){
       if (error) throw error;
       else {
         var data = {

@@ -1,5 +1,8 @@
 {{#each nivel}}
 <ul>
-  {{#each this}}<li> {{nombre}} </li>{{/each}}
+  {{#each this}}<li> {{nombre}} </li>
+  {{/each}}
+  {{#if @last}} <li> Materias Optativas </li> {{/if}}
 </ul>
 {{/each}}
+

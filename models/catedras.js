@@ -34,7 +34,8 @@ var Catedras = {
   },
   
   /* recibe una objeto Catedra y le agrega una propiedad dia_nombre que es 
-  el nombre del dia de esta cátedra.  */
+  el nombre del dia de esta cátedra.  */   
+  
   addDia_nombre: function(catedra, callback) {
     db.get("select nombre from dias where dia = ?", [catedra.dia], function(error, row){
       if (error) return callback(error);
@@ -61,6 +62,23 @@ var Catedras = {
         }
       })(i));
     }
+  },
+  /*recibe el id de una catedra y un callback. llama al callback con un objeto
+  de tipo Catedra, correspondiente a la catedra con ese id*/
+  getByIdCatedra: function(idcatedra, callback) {
+    db.get("select * from catedras where idcatedra = ?", [idcatedra], function(error, row){
+      if (error) return callback(error);
+      var catedra = {}
+      if (row) {
+        catedra = new Catedra(row.idmateria, 
+                              row.idcatedra,
+                              row.nombre,
+                              row.turno,
+                              row.promocionable,
+                              row.dia);
+      }
+      callback(undefined, catedra);
+    });
   }
 
 };

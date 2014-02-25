@@ -5,7 +5,7 @@ function Catedra(idmateria, idcatedra, nombre, turno, promocionable, dia) {
   this.idcatedra = idcatedra;
   this.nombre = nombre;
   this.turno = turno;
-  this.promocionable = promocionable;
+  this.promocionable = promocionable == 1;
   this.dia = dia;
 }
 

@@ -7,7 +7,11 @@
     <div class="container">
       <h1>Esta es la página de la catedra {{nombre}} de la materia {{materia}}</h1>
       <p>Dia de cursada: {{dia}} de {{turno}}</p>
-      <p>{{promocionable}}</p>
+      <p>
+        {{#if promocionable}} Esta materia es promocionable.
+        {{else}} Esta materia tiene final obligatorio.
+        {{/if}}
+      </p>
       <h2>Opiniones</h2>
       <h3>¿Cursaste {{materia}} en la cátedra {{nombre}}? Dejanos tu opinion de la cursada.</h3>
       <form action="/materia/{{idmateria}}/{{idcatedra}}" method="post">

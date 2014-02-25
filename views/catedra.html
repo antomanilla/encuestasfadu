@@ -1,3 +1,26 @@
-<h1>Esta es la página de la catedra {{nombre}} de la materia {{materia}}</h1>
-<p>Dia de cursada: {{dia}} de {{turno}}</p>
-<p>{{promocionable}}</p>
+<!doctype html> 
+<html>
+  <head>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+  </head>
+  <body>
+    <div class="container">
+      <h1>Esta es la página de la catedra {{nombre}} de la materia {{materia}}</h1>
+      <p>Dia de cursada: {{dia}} de {{turno}}</p>
+      <p>{{promocionable}}</p>
+      <h2>Opiniones</h2>
+      <h3>¿Cursaste {{materia}} en la cátedra {{nombre}}? Dejanos tu opinion de la cursada.</h3>
+      <form action="/materia/{{idmateria}}/{{idcatedra}}" method="post">
+        <textarea name="comentario" rows="10" cols="80">
+        </textarea>
+        <input class="btn btn-default" type="submit" value="Submit">
+        <input type="hidden" name="idcatedra" value="{{idcatedra}}">
+      </form>
+      <div class="comentarios">
+        {{#each comentarios}}
+        <div> {{comentario}}</div>
+        {{/each}}
+      </div>
+    </div>
+  </body>
+</html>

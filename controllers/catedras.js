@@ -1,5 +1,7 @@
 var Materias;
 var Catedras;
+var Review;
+var Reviews;
 
 var catedras = {
   showCatedra: function (request, response) {
@@ -26,20 +28,36 @@ var catedras = {
             } else {
               promocionable = "Esta materia tiene final obligatorio.";
             }
-
-            var data = {
-              nombre: catedra.nombre,
-              materia: materia.nombre,
-              dia: catedra.dia_nombre,
-              turno: turno,
-              promocionable: promocionable
-            }  
-            response.render("catedra", data);  
+            Reviews.getByIdCatedra(request.params.catedra, function(error, allreviews){
+              var data = {
+                nombre: catedra.nombre,
+                materia: materia.nombre,
+                dia: catedra.dia_nombre,
+                turno: turno,
+                promocionable: promocionable,
+                idcatedra: catedra.idcatedra,
+                idmateria: catedra.idmateria,
+                comentarios: allreviews
+              };
+              response.render("catedra", data);  
+            });
           });
         });
       } else {
         response.send("No existe esta catedra");
       }
+    });
+  },
+  //catedras.uploadReview toma lo que esta en el input del comentario
+  //luego crea un objeto Review y llamar a review.addReview 
+  uploadReview: function (request, response) {
+    var review = new Review (request.body.idcatedra,
+                            undefined,
+                            request.body.comentario,
+                            undefined,
+                            undefined);
+    Reviews.addReview (review, function (error, finalreview) {
+      catedras.showCatedra(request, response);
     });
   }
 };
@@ -50,5 +68,8 @@ module.exports = function(db_) {
   db = db_;
   Materias = require("../models/materias")(db);
   Catedras = require("../models/catedras")(db);
+  var reviews = require("../models/reviews")(db);
+  Reviews = reviews.Reviews;
+  Review = reviews.Review;
   return catedras;
 }

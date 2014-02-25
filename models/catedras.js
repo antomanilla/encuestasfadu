@@ -79,8 +79,16 @@ var Catedras = {
       }
       callback(undefined, catedra);
     });
-  }
-
+  },
+  translateTurno: function (turno) {   
+    if (turno == 1) {
+      return "8:30 a 12:30";
+    } else if (turno ==2) {
+      return "14:00 a 18:00";
+    } else {
+      return "19:00 a 23:00";
+    }
+  } 
 };
 
 module.exports = function(db_) {

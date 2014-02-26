@@ -32,24 +32,35 @@ var reviews = {
     db.all("select * from reviews where idcatedra = ?", [idcatedra], function(error, rows){
       if (error) return callback (error);
       var allreviews = [];
+      var semaphore = rows.length;
+      if (!rows.length) return callback(undefined, allreviews);
       for (var i = 0; i<rows.length; i++){
-      allreviews[i] = new Review(rows[i].idcatedra, 
-                                 rows[i].idreview,
-                                 rows[i].comentario,
-                                 [],
-                                 rows[i].fecha);
+        puntajes.getPuntajesByIdReview(rows[i].idreview, function(i_) {
+          return function (error, finalpuntajes){
+            allreviews[i_] = new Review(rows[i_].idcatedra, 
+                                     rows[i_].idreview,
+                                     rows[i_].comentario,
+                                     finalpuntajes,
+                                     rows[i_].fecha);
+            semaphore--;
+            if (semaphore == 0){
+              if (error) return callback (error);
+              callback(undefined, allreviews);
+            }
+          }
+        }(i));
       }
-      callback(undefined, allreviews);
     });
   }
 };
 
 var db;
-
+var puntajes;
 module.exports = function(db_) {
   db = db_;
+  puntajes = require('./puntajes')(db);
   return {
     Reviews : reviews,
     Review : Review
   };
-}
+};

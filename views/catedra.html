@@ -18,8 +18,8 @@
         <textarea name="comentario" rows="10" cols="80"></textarea>
         <input class="btn btn-default" type="submit" value="Submit">
         <input type="hidden" name="idcatedra" value="{{idcatedra}}">
-        <div id="general_" class="rating"></div>
-        <div id="dificultad_" class="rating"></div>
+        <div id="general" class="enterrating"></div>
+        <div id="dificultad" class="enterrating"></div>
       </form>
       <div class="comentarios">
         {{#each comentarios}}
@@ -32,8 +32,16 @@
     </div>
     <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
     <script src="/js/jquery.raty.js"></script>
-    <script> $('.rating').raty({ starOn: '/imagenes/star-on.png', starOff: '/imagenes/star-off.png'  }); </script>
-    <script> 
+    <script>
+      $('.enterrating').raty({
+        starOn: '/imagenes/star-on.png',
+        starOff: '/imagenes/star-off.png'  
+      }); 
+
+      $( ".enterrating" ).each(function() { 
+        $(this).children('input').attr("name", $(this).attr("id"));
+      });
+
       $( ".showrating" ).each(function() { 
         $(this).raty({ 
           starOn: '/imagenes/star-on.png',
@@ -42,11 +50,6 @@
           score: $(this).data('rating') 
         }); 
       });
-    </script>
-
-
-
-
-
+    </script>    
   </body>
 </html>

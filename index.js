@@ -10,7 +10,9 @@ var catedras = require('./controllers/catedras')(db);
 
 
 app.use('/css', express.static(__dirname + '/css'));
-app.use('/fotos', express.static(__dirname + '/fotos'));
+app.use('/imagenes', express.static(__dirname + '/imagenes'));
+app.use('/js', express.static(__dirname + '/js'));
+
 app.use(express.cookieParser());
 app.use(express.session({'secret': "parrilla"}));
 app.use(express.logger("dev"));

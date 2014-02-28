@@ -18,8 +18,8 @@
         <textarea name="comentario" rows="10" cols="80"></textarea>
         <input class="btn btn-default" type="submit" value="Submit">
         <input type="hidden" name="idcatedra" value="{{idcatedra}}">
-        <div id="general" class="enterrating"></div>
-        <div id="dificultad" class="enterrating"></div>
+        <div id="r2" class="enterrating"></div>
+        <div id="r1" class="enterrating"></div>
       </form>
       <div class="comentarios">
         {{#each comentarios}}
@@ -39,7 +39,8 @@
       }); 
 
       $( ".enterrating" ).each(function() { 
-        $(this).children('input').attr("name", $(this).attr("id"));
+        var str = $(this).attr("id");
+        $(this).children('input').attr("name", "ratings[" + str.substring(1) + "]");
       });
 
       $( ".showrating" ).each(function() { 

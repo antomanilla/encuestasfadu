@@ -40,7 +40,7 @@
 
       $( ".enterrating" ).each(function() { 
         var str = $(this).attr("id");
-        $(this).children('input').attr("name", "ratings[" + str.substring(1) + "]");
+        $(this).children('input').attr("name", "puntajes[" + str + "]");
       });
 
       $( ".showrating" ).each(function() { 

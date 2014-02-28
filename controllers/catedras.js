@@ -42,7 +42,7 @@ var catedras = {
     var review = new Review (request.body.idcatedra,
                             undefined,
                             request.body.comentario,
-                            undefined,
+                            request.body.puntajes,
                             undefined);
     Reviews.addReview (review, function (error, finalreview) {
       catedras.showCatedra(request, response);

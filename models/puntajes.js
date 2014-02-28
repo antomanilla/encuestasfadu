@@ -28,5 +28,5 @@ var puntajes = {
 
 module.exports = function(db_) {
   db = db_;
-  return puntajes;
+  return { Puntajes: puntajes, Puntaje: Puntaje };
 };

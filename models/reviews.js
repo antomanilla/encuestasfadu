@@ -36,13 +36,17 @@ var reviews = {
         for (var criterio in review.puntajes) {
           var valor = review.puntajes[criterio];
           var idcriterio = criterio.substring(1);
-          puntajes_.push(new Puntaje(idcriterio, undefined, valor));    
-          db.run("insert into puntajes (idcriterio, idreview, valor) values (?,?,?)",
-                 [idcriterio, idreview, valor], function(error) {
-            if (error) return callback (error);
-            semaphore--;
-            if (!semaphore) finish();
-          });
+          Puntajes.getNombreByIdCriterio(idcriterio, (function (idcriterio_, valor_) {
+            return function(error, nombrecriterio) {
+              puntajes_.push(new Puntaje(idcriterio_, nombrecriterio, valor_));    
+              db.run("insert into puntajes (idcriterio, idreview, valor) values (?,?,?)",
+                     [idcriterio_, idreview, valor_], function(error) {
+                if (error) return callback (error);
+                semaphore--;
+                if (!semaphore) finish();
+              });
+            }
+          })(idcriterio, valor));
         }     
       });
     });

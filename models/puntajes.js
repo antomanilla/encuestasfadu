@@ -23,6 +23,13 @@ var puntajes = {
       }
       callback(undefined, finalpuntajes);
     });
+  },
+  getNombreByIdCriterio: function (idcriterio, callback){
+    db.get("select nombre from criterios where idcriterio = ?", [idcriterio], 
+           function (error, row){
+      if (error) return callback (error);
+      callback(undefined, row.nombre);
+    });
   }
 };
 

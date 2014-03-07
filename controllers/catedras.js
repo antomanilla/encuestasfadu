@@ -15,20 +15,25 @@ var catedras = {
           }
           Catedras.addDia_nombre(catedra, function(){
             var turno = Catedras.translateTurno(catedra.turno);
-
-            Reviews.getByIdCatedra(request.params.catedra, function(error, allreviews){
-              var data = {
-                nombre: catedra.nombre,
-                materia: materia.nombre,
-                dia: catedra.dia_nombre,
-                turno: turno,
-                promocionable: catedra.promocionable,
-                idcatedra: catedra.idcatedra,
-                idmateria: catedra.idmateria,
-                comentarios: allreviews
-              };
+            Catedras.addPromedioGeneral(catedra, function(error){
+              if (error) {
+                response.send("Hubo un error :", error);
+              }
+              Reviews.getByIdCatedra(request.params.catedra, function(error, allreviews){
+                var data = {
+                  nombre: catedra.nombre,
+                  materia: materia.nombre,
+                  dia: catedra.dia_nombre,
+                  turno: turno,
+                  promocionable: catedra.promocionable,
+                  idcatedra: catedra.idcatedra,
+                  idmateria: catedra.idmateria,
+                  comentarios: allreviews,
+                  promediogeneral: catedra.promediogeneral
+                };
               response.render("catedra", data);  
-            });
+              });
+            });            
           });
         });
       } else {

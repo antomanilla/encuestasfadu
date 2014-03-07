@@ -1,12 +1,13 @@
 var db;
 
-function Catedra(idmateria, idcatedra, nombre, turno, promocionable, dia) {
+function Catedra(idmateria, idcatedra, nombre, turno, promocionable, dia, promediogeneral) {
   this.idmateria = idmateria;
   this.idcatedra = idcatedra;
   this.nombre = nombre;
   this.turno = turno;
   this.promocionable = promocionable == 1;
   this.dia = dia;
+  this.promediogeneral = promediogeneral;
 }
 
 var Catedras = {
@@ -88,7 +89,21 @@ var Catedras = {
     } else {
       return "19:00 a 23:00";
     }
-  } 
+  },
+  addPromedioGeneral: function(catedra,callback){
+    var str = "select avg(puntajes.valor) from puntajes, reviews " + 
+           "where puntajes.idreview=reviews.idreview " +
+           "and reviews.idcatedra=? and puntajes.idcriterio=2";
+    db.get(str,[+catedra.idcatedra], 
+           function(error,row) {
+      if (error) return callback(error);
+      if (row) {
+        console.log("row de promedio general vale ",row["avg(puntajes.valor)"]);
+        catedra.promediogeneral = row["avg(puntajes.valor)"];    
+      } 
+      callback();
+    });   
+  }
 };
 
 module.exports = function(db_) {

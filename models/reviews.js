@@ -11,12 +11,12 @@ function Review( idcatedra, idreview, comentario, puntajes, fecha) {
   undefined, inserta el review en la db y llama al callback con el review ahora con 
   los datos completos*/
 
-/*
+/* 
 */
 var reviews = {
   addReview: function (review, callback) {
     db.run("insert into reviews (idcatedra, comentario) values (?,?)",
-           [review.idcatedra, review.comentario], function (error){
+           [+review.idcatedra, review.comentario], function (error){
       if (error) return callback(error);
       var idreview = this.lastID;
       db.get("select idreview, fecha from reviews where idreview = ?",
@@ -40,7 +40,7 @@ var reviews = {
             return function(error, nombrecriterio) {
               puntajes_.push(new Puntaje(idcriterio_, nombrecriterio, valor_));    
               db.run("insert into puntajes (idcriterio, idreview, valor) values (?,?,?)",
-                     [idcriterio_, idreview, valor_], function(error) {
+                     [+idcriterio_, +idreview, +valor_], function(error) {
                 if (error) return callback (error);
                 semaphore--;
                 if (!semaphore) finish();
@@ -55,7 +55,7 @@ var reviews = {
   /*reviews.getByIdCatedra recibe un idcatedra y un callback. llama al callback con un array
   de objetos del tipo Review , siendo estos los reviews pertenecientes a esa catedra */
   getByIdCatedra: function (idcatedra, callback) {
-    db.all("select * from reviews where idcatedra = ?", [idcatedra], function(error, rows){
+    db.all("select * from reviews where idcatedra = ?", [+idcatedra], function(error, rows){
       if (error) return callback (error);
       var allreviews = [];
       var semaphore = rows.length;

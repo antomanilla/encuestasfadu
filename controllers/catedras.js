@@ -23,6 +23,7 @@ var catedras = {
                 var data = {
                   nombre: catedra.nombre,
                   materia: materia.nombre,
+                  nivel: materia.nivel,
                   dia: catedra.dia_nombre,
                   turno: turno,
                   promocionable: catedra.promocionable,

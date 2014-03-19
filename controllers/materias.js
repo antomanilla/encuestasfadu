@@ -9,7 +9,8 @@ var materias = {
         if (error) throw error;
         var data = {
           nombre: materia.nombre,
-          catedra: catedras
+          catedra: catedras,
+          nivel: materia.nivel
         }
         response.render("materia", data);
       });    

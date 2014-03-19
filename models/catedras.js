@@ -99,7 +99,7 @@ var Catedras = {
       if (error) return callback(error);
       if (row) {
         console.log("row de promedio general vale ",row["avg(puntajes.valor)"]);
-        catedra.promediogeneral = row["avg(puntajes.valor)"];    
+        catedra.promediogeneral = row["avg(puntajes.valor)"].toFixed(2);;    
       } 
       callback();
     });   

@@ -60,6 +60,7 @@ var reviews = {
       var allreviews = [];
       var semaphore = rows.length;
       if (!rows.length) return callback(undefined, allreviews);
+      var cantidadreviews = rows.length;
       for (var i = 0; i<rows.length; i++){
         Puntajes.getPuntajesByIdReview(rows[i].idreview, function(i_) {
           return function (error, finalpuntajes){
@@ -72,7 +73,7 @@ var reviews = {
             semaphore--;
             if (semaphore == 0){
               if (error) return callback (error);
-              callback(undefined, allreviews);
+              callback(undefined, allreviews, cantidadreviews);
             }
           }
         }(i));

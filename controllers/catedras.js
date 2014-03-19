@@ -19,7 +19,7 @@ var catedras = {
               if (error) {
                 response.send("Hubo un error :", error);
               }
-              Reviews.getByIdCatedra(request.params.catedra, function(error, allreviews){
+              Reviews.getByIdCatedra(request.params.catedra, function(error, allreviews, cantidadreviews){
                 var data = {
                   nombre: catedra.nombre,
                   materia: materia.nombre,
@@ -30,7 +30,8 @@ var catedras = {
                   idcatedra: catedra.idcatedra,
                   idmateria: catedra.idmateria,
                   comentarios: allreviews,
-                  promediogeneral: catedra.promediogeneral
+                  promediogeneral: catedra.promediogeneral,
+                  cantidadreviews: cantidadreviews
                 };
               response.render("catedra", data);  
               });

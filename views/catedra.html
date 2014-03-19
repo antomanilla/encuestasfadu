@@ -14,7 +14,8 @@
         {{/if}}
       </p>
       <h2>Opiniones</h2>
-      <h3> {{promediogeneral}}</h3>
+      <div class="showrating" data-rating="{{promediogeneral}}"> </div>
+      <div> {{promediogeneral}} </div>
       <h3>¿Cursaste {{materia}} en la cátedra {{nombre}}? Dejanos tu opinion de la cursada.</h3>
       <form action="/materia/{{idmateria}}/{{idcatedra}}" method="post">
         <textarea name="comentario" rows="10" cols="80"></textarea>
@@ -49,8 +50,10 @@
         $(this).raty({ 
           starOn: '/imagenes/star-on.png',
           starOff: '/imagenes/star-off.png',
+          starHalf: '/imagenes/star-half.png',
           readOnly: true, 
-          score: $(this).data('rating') 
+          score: $(this).data('rating'),
+          halfShow: true
         }); 
       });
     </script>    

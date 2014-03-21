@@ -106,6 +106,25 @@ var Materias = {
       }
       callback(undefined, materias_optativas);
     });
+  },
+  getByMatchingName: function(name, callback) {
+    name = name.replace('á', 'a');
+    name = name.replace('é', 'e');
+    name = name.replace('í', 'i');
+    name = name.replace('ó', 'o');
+    name = name.replace('ú', 'u');
+    db.all("select * from materias where replace(replace(replace(replace(replace(nombre, 'á', 'a'), 'é','e'), 'í','i'), 'ó','o'),'ú','u') like ?", ["%"+name+"%"], function(error, rows) {
+      if (error) return callback(error);
+      var materias = [];
+      for(var i=0; i<rows.length; i++) {
+        materias[i] = new Materia(rows[i].idmateria, 
+                                  rows[i].nombre,
+                                  rows[i].anual,
+                                  rows[i].regular,
+                                  rows[i].nivel);
+      }
+      callback(undefined, materias);
+    });
   }
 };
 

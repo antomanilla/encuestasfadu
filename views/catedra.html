@@ -7,7 +7,8 @@
     <div class="container">
       <nav> <a href="/">Diseño Gráfico</a>// <a href="">Nivel {{nivel}}</a>// <a href="/materia/{{idmateria}}">{{materia}}</a>// {{nombre}}</nav>
       <h1>Esta es la página de la catedra {{nombre}} de la materia {{materia}}</h1>
-      <p>Dia de cursada: {{dia}} de {{turno}}</p>
+      <p>Horarios de cursada</p>
+      {{#each cursadas}} <p> {{dia_nombre}} de {{horario_nombre}} en el {{cuatrimestre}}.</p>{{/each}}
       <p>
         {{#if promocionable}} Esta materia es promocionable.
         {{else}} Esta materia tiene final obligatorio.

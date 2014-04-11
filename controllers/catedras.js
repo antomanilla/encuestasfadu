@@ -2,6 +2,7 @@ var Materias;
 var Catedras;
 var Review;
 var Reviews;
+var Cursadas;
 
 var catedras = {
   showCatedra: function (request, response) {
@@ -12,31 +13,31 @@ var catedras = {
         Materias.getById(catedra.idmateria, function(error, materia){
           if (error) {
            response.send("Hubo un error :", error);
-          }
-          Catedras.addDia_nombre(catedra, function(){
-            var turno = Catedras.translateTurno(catedra.turno);
-            Catedras.addPromedioGeneral(catedra, function(error){
-              if (error) {
-                response.send("Hubo un error :", error);
-              }
-              Reviews.getByIdCatedra(request.params.catedra, function(error, allreviews, cantidadreviews){
+          } 
+          Catedras.addPromedioGeneral(catedra, function(error){
+            if (error) {
+              response.send("Hubo un error :", error);
+            }
+            Reviews.getByIdCatedra(request.params.catedra, function(error, allreviews, cantidadreviews){
+              Cursadas.getByIdCatedra(catedra.idcatedra, function(error, cursadas){
+                console.log("CURSADAS VALE!!!!!!!!!", cursadas);
                 var data = {
                   nombre: catedra.nombre,
                   materia: materia.nombre,
                   nivel: materia.nivel,
-                  dia: catedra.dia_nombre,
-                  turno: turno,
                   promocionable: catedra.promocionable,
                   idcatedra: catedra.idcatedra,
                   idmateria: catedra.idmateria,
                   comentarios: allreviews,
                   promediogeneral: catedra.promediogeneral,
-                  cantidadreviews: cantidadreviews
+                  cantidadreviews: cantidadreviews,
+                  cursadas: cursadas
                 };
-              response.render("catedra", data);  
+                response.render("catedra", data);  
               });
-            });            
-          });
+            });
+          });            
+         
         });
       } else {
         response.send("No existe esta catedra");
@@ -66,5 +67,6 @@ module.exports = function(db_) {
   var reviews = require("../models/reviews")(db);
   Reviews = reviews.Reviews;
   Review = reviews.Review;
+  Cursadas = require("../models/cursadas")(db);
   return catedras;
 }

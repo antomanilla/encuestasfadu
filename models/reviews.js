@@ -64,7 +64,6 @@ var reviews = {
       for (var i = 0; i<rows.length; i++){
         Puntajes.getPuntajesByIdReview(rows[i].idreview, function(i_) {
           return function (error, finalpuntajes){
-            console.log("finalpuntajes vale", finalpuntajes);
             allreviews[i_] = new Review(rows[i_].idcatedra, 
                                      rows[i_].idreview,
                                      rows[i_].comentario,
@@ -74,6 +73,34 @@ var reviews = {
             if (semaphore == 0){
               if (error) return callback (error);
               callback(undefined, allreviews, cantidadreviews);
+            }
+          }
+        }(i));
+      }
+    });
+  },
+  getByMatchingText: function(text, callback) {
+    text = text.replace('á', 'a');
+    text = text.replace('é', 'e');
+    text = text.replace('í', 'i');
+    text = text.replace('ó', 'o');
+    text = text.replace('ú', 'u');
+    db.all("select * from reviews where replace(replace(replace(replace(replace(comentario, 'á', 'a'), 'é','e'), 'í','i'), 'ó','o'),'ú','u') like ?", ["%"+text+"%"], function(error, rows) {
+      if (error) return callback(error);
+      var reviews = [];
+      if (!rows.length) return callback(undefined,reviews);
+      var semaphore = rows.length;
+      for(var i=0; i<rows.length; i++) {
+        Puntajes.getPuntajesByIdReview(rows[i].idreview, function(i_){
+          return function (error, puntajes){
+            reviews[i_] = new Review(rows[i_].idcatedra, 
+                                    rows[i_].idreview,
+                                    rows[i_].comentario,
+                                    puntajes,
+                                    rows[i_].fecha);       
+            semaphore --;
+            if (semaphore==0) {
+              callback(undefined, reviews);
             }
           }
         }(i));
@@ -90,7 +117,6 @@ module.exports = function(db_) {
   var puntajes = require('./puntajes')(db);
   Puntaje = puntajes.Puntaje;
   Puntajes = puntajes.Puntajes;
-
   return {
     Reviews : reviews,
     Review : Review

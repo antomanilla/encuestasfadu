@@ -41,7 +41,8 @@
     <script>
       $('.enterrating').raty({
         starOn: '/imagenes/star-on.png',
-        starOff: '/imagenes/star-off.png'  
+        starOff: '/imagenes/star-off.png',
+        hints: ['Mala', 'Regular', 'Buena', 'Muy Buena', 'Excelente']
       }); 
 
       $( ".enterrating" ).each(function() { 
@@ -55,8 +56,9 @@
           starOff: '/imagenes/star-off.png',
           starHalf: '/imagenes/star-half.png',
           readOnly: true, 
-          score: $(this).data('rating'),
-          halfShow: true
+          score: $(this).data('rating'), 
+          halfShow: true,
+          hints: ['Mala', 'Regular', 'Buena', 'Muy Buena', 'Excelente']
         }); 
       });
       $('input[name="puntajes[r1]"]').attr('required', true);

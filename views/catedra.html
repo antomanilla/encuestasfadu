@@ -36,10 +36,11 @@
       </form>
       <div class="comentarios">
         {{#each comentarios}}
-        <div> {{comentario}}</div>
         <div>Puntajes: {{#each puntajes}} {{nombrecriterio}} 
           <div class="showrating" data-rating="{{valor}}"></div>{{/each}} 
         </div>
+        <div> {{comentario}}</div>
+        <div> {{fecha}} </div>
         {{/each}}
       </div>
     </div>

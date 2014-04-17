@@ -20,7 +20,9 @@ var catedras = {
             }
             Reviews.getByIdCatedra(request.params.catedra, function(error, allreviews, cantidadreviews){
               Cursadas.getByIdCatedra(catedra.idcatedra, function(error, cursadas){
-                console.log("CURSADAS VALE!!!!!!!!!", cursadas);
+                if (cantidadreviews == 1) { 
+                  var opinion = true;
+                }
                 var data = {
                   nombre: catedra.nombre,
                   materia: materia.nombre,
@@ -31,7 +33,8 @@ var catedras = {
                   comentarios: allreviews,
                   promediogeneral: catedra.promediogeneral,
                   cantidadreviews: cantidadreviews,
-                  cursadas: cursadas
+                  cursadas: cursadas,
+                  opinion: opinion
                 };
                 response.render("catedra", data);  
               });

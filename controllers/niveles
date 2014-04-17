@@ -1,0 +1,22 @@
+var Materias;
+
+var niveles = {
+  showNivel: function(request, response) {
+    Materias.getByNivel(request.params.num,function(error,materias){
+      if (error) throw error;
+      var data = {
+        nivel_: request.params.num,
+        materia: materias
+      }
+      response.render("nivel", data);
+    });  
+  }
+};
+var db;
+
+module.exports = function(db_) {
+  db = db_;
+  Materias = require("../models/materias")(db);
+  return niveles;
+}
+

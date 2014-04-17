@@ -5,7 +5,7 @@
   </head>
   <body>
     <div class="container">
-      <nav> <a href="/">Diseño Gráfico</a>// <a href="">Nivel {{nivel}}</a>// <a href="/materia/{{idmateria}}">{{materia}}</a>// {{nombre}}</nav>
+      <nav> <a href="/">Diseño Gráfico</a>// <a href="/nivel/{{nivel}}">Nivel {{nivel}}</a>// <a href="/materia/{{idmateria}}">{{materia}}</a>// {{nombre}}</nav>
       <h1>Esta es la página de la catedra {{nombre}} de la materia {{materia}}</h1>
       <p>Horarios de cursada</p>
       {{#each cursadas}} <p> {{dia_nombre}} de {{horario_nombre}} en el {{cuatrimestre}}.</p>{{/each}}

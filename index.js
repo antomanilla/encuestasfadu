@@ -8,6 +8,7 @@ var materias = require('./controllers/materias')(db);
 var optativas = require('./controllers/optativas')(db);
 var catedras = require('./controllers/catedras')(db);
 var buscador = require('./controllers/buscador')(db);
+var niveles = require('./controllers/niveles')(db);
 
 
 app.use('/css', express.static(__dirname + '/css'));
@@ -28,5 +29,6 @@ app.get('/materia/:id', materias.showMateria);
 app.get('/optativas', optativas.showOptativas);
 app.get('/materia/:id/:catedra', catedras.showCatedra);
 app.get('/buscador', buscador.showResults);
+app.get('/nivel/:num', niveles.showNivel);
 app.post('/materia/:id/:catedra', catedras.uploadReview);
 app.listen(3000);

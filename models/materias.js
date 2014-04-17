@@ -48,6 +48,20 @@ var Materias = {
     });
   
   },
+  getByNivel:function(nivel, callback) {
+    db.all("select * from materias where nivel = ?", [nivel], function(error, rows){
+      if (error) return callback(error);
+      var materias = [];
+      for(var i=0; i<rows.length; i++) {
+        materias[i] = new Materia(rows[i].idmateria, 
+                                  rows[i].nombre,
+                                  rows[i].anual,
+                                  rows[i].regular,
+                                  rows[i].nivel);
+      }
+      callback(undefined, materias);
+    });
+  },
   /* Materias.getGroupedByNivel recibe un callback, y lo llama con
   un posible error y un array de arrays de objetos Materia x, donde x[i] es 
   una array de las materias del i+1-esimo nivel. */

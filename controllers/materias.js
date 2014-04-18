@@ -7,6 +7,9 @@ var materias = {
       if (error) return response.send(error.toString());
       Catedras.getByMateria(materia.idmateria, function(error, catedras){       
         if (error) throw error;
+        if (catedras.length == 1) {
+          response.redirect("/materia/"+ materia.idmateria + "/" + catedras[0].idcatedra);
+        }
         var data = {
           nombre: materia.nombre,
           catedra: catedras,

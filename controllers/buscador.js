@@ -8,20 +8,28 @@ var buscador = {
     Materias.getByMatchingName(request.query.buscador, function(error, materias){
       if (error) return response.send(error.toString());
       Catedras.getByMatchingName(request.query.buscador, function(error, catedras){
+        if (error) return response.send(error.toString());
         Reviews.getByMatchingText(request.query.buscador, function(error, reviews){
+          if (error) return response.send(error.toString());
           var semaphore = reviews.length;
+          var renderResults = function(){
+            var data = {
+              materias: materias,
+              catedras: catedras,
+              reviews: reviews
+            }
+            return response.render("searchresults",data);        
+          }
+          if (!semaphore) {
+            renderResults();
+          }
           for(var i=0; i<reviews.length; i++) {
             Catedras.getByIdCatedra(reviews[i].idcatedra, function(i_){
               return function(error,catedra){
                 reviews[i_].idmateria = catedra.idmateria;
                 semaphore--;
                 if (semaphore==0) {
-                  var data = {
-                    materias: materias,
-                    catedras: catedras,
-                    reviews: reviews
-                  }
-                  response.render("searchresults", data);
+                  renderResults();
                 }   
               }
             }(i));

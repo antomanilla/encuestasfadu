@@ -1,12 +1,13 @@
 var db;
 
-function Catedra(idmateria, idcatedra, nombre, promocionable, promediogeneral) {
+function Catedra(idmateria, idcatedra, nombre, promocionable, promediogeneral, nombremateria) {
   this.idmateria = idmateria;
   this.idcatedra = idcatedra;
   this.nombre = nombre;
   this.promocionable = promocionable == 1;
   this.promediogeneral = promediogeneral;
   this.cursadas  = [];
+  this.nombremateria = nombremateria;
 }
 
 var Catedras = {
@@ -66,15 +67,21 @@ var Catedras = {
     name = name.replace('í', 'i');
     name = name.replace('ó', 'o');
     name = name.replace('ú', 'u');
-    db.all("select * from catedras where replace(replace(replace(replace(replace(nombre, 'á', 'a'), 'é','e'), 'í','i'), 'ó','o'),'ú','u') like ?", ["%"+name+"%"], function(error, rows) {
+    db.all("select catedras.idmateria, catedras.idcatedra, catedras.nombre, catedras.promocionable, materias.nombre as nombremateria " + 
+           "from catedras, materias where catedras.idmateria = materias.idmateria and " + 
+           "replace(replace(replace(replace(replace(catedras.nombre, 'á', 'a'), 'é','e'), 'í','i'), 'ó','o'),'ú','u') like ?", ["%"+name+"%"], function(error, rows) {
       if (error) return callback(error);
       var catedras = [];
       for(var i=0; i<rows.length; i++) {
         catedras[i] = new Catedra(rows[i].idmateria, 
                                   rows[i].idcatedra,
                                   rows[i].nombre,
-                                  rows[i].promocionable);
+                                  rows[i].promocionable,
+                                  [],
+                                  rows[i].nombremateria
+                                  );
       }
+
       callback(undefined, catedras);
     });
   }
